@@ -1,0 +1,13 @@
+{% extends "general.html" %}
+
+
+{% block content %}
+{% for post in posts %}
+<div class="post">
+    <header>
+        {{ post.creation_d }}
+    </header>
+    {{ post }}
+</div>
+{% endfor %}
+{% endblock %}
