@@ -20,10 +20,10 @@ class Menu:
 
     def __init__(self, sites, blogs):
         self.items = []
-        for site in sites :
-            self.items.append(self.Item(site.file_n + '.html', site.file_n))
         for blog in blogs:
             self.items.append(self.Item(blog.file_n + '.html', blog.file_n))
+        for site in sites :
+            self.items.append(self.Item(site.file_n + '.html', site.file_n))
 
 class Site:
     def __init__(self, file_p):
@@ -80,8 +80,12 @@ class Blog:
         for post in posts:
             post.render()
 
+        # render markdown
+        with open(self.file_p, 'r+', encoding='utf-8') as file:
+            text = markdown.markdown(file.read(), extensions=['meta'])
+
         # pack it into jinj2templates
-        html = j2_blog.render(posts=posts, menu=menu)
+        html = j2_blog.render(posts=posts, menu=menu, content=text)
         with open(os.path.join('docs', self.file_n + '.html'), 'w+') as file:
             file.write(html)
 
